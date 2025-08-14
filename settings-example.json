@@ -1,0 +1,11 @@
+{
+    "sensor": {
+        "sensor_id": 22,
+        "pin": 4
+    },
+    "openweathermap": {
+        "api_key": "YOUR_OPENWEATHERMAP_API_KEY",
+        "zip": "55555",
+        "country": "de"
+    }
+}
