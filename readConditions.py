@@ -5,7 +5,7 @@ import requests
 import json
 import os
 
-outpath = "/home/pi/logs/"
+outpath = "/home/pi/conditions_log/"
 
 def load_settings(filename="settings.json"):
     """Load settings from settings.json"""
