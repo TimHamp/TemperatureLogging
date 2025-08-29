@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_file
 from datetime import datetime, timedelta
 import os
 import csv
@@ -7,6 +7,7 @@ import csv
 app = Flask(__name__)
 
 DATA_PATH = "/home/pi/conditions_log"
+STATS_PATH = "/home/pi/stats"
 
 def read_last_row():
     csv_file = os.path.join(DATA_PATH, f"{datetime.now().strftime('%Y-%m-%d')}.csv")
@@ -76,6 +77,22 @@ def latest():
 @app.route("/last24h")
 def last24h():
     return jsonify(read_last_24h())
+
+@app.route("/temperature/today")
+def temperature_today():
+    filename = os.path.join(STATS_PATH, f"{datetime.now().strftime('%Y-%m-%d')}_temperature.png")
+    if os.path.exists(filename):
+        return send_file(filename, mimetype="image/png")
+    else:
+        return jsonify({"error": "Temperature chart not found"}), 404
+
+@app.route("/humidity/today")
+def humidity_today():
+    filename = os.path.join(STATS_PATH, f"{datetime.now().strftime('%Y-%m-%d')}_humidity.png")
+    if os.path.exists(filename):
+        return send_file(filename, mimetype="image/png")
+    else:
+        return jsonify({"error": "Humidity chart not found"}), 404
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
